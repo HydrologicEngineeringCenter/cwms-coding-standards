@@ -1,4 +1,5 @@
 ---
+name: Doc Build Test
 on:
   push:
     branches:
@@ -8,7 +9,7 @@ on:
       - main
 
 permissions:
-  contents: reads
+  contents: read
 
 jobs:
   build-docs:
