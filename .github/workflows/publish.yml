@@ -2,23 +2,29 @@ name: Publish Documentation
 on:
   workflow_run:
     workflows: ["Doc Build Test"]
+    branches: 
+      - main
     type: [completed]
 
 jobs:
   publish:
+    environment:
+      name: github-pages
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
     runs-on: ubuntu-latest
     if: github.event.workflow_run && github.event.workflow_run.conclusion == 'success'
     steps:
-      - name: Download Coverage
-        uses: actions/download-artifact@v4.2.1
+      - name: Setup Pages
+    
+        uses: actions/configure-pages@v5
+      - name: Upload Artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
-          path: ./
-          merge-multiple: true
+          # upload entire directory
+          path: build
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4.0.5
