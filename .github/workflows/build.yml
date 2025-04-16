@@ -11,23 +11,23 @@ permissions:
   contents: reads
 
 jobs:
-  build: Build Docs
-  runs-on: ubuntu-latest
-  steps:
-      - uses: actions/checkout@v4.2.0
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: actions/setup-python@v5.5.0
-        with:
-          python-version: '3.13'
-      - name: setup environment
-        run: |
-          python -m venv .venv
-          pip install -r requirements.txt
-      - name: build Docs
-        run: |
-          make html
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4.6.2
-        with:
-          path: build/**
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4.2.0
+          with:
+            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        - uses: actions/setup-python@v5.5.0
+          with:
+            python-version: '3.13'
+        - name: setup environment
+          run: |
+            python -m venv .venv
+            pip install -r requirements.txt
+        - name: build Docs
+          run: |
+            make html
+        - name: Upload artifact
+          uses: actions/upload-artifact@v4.6.2
+          with:
+            path: build/**
