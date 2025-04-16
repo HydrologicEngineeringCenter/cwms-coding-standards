@@ -31,4 +31,14 @@ jobs:
         - name: Upload artifact
           uses: actions/upload-artifact@v4.6.2
           with:
+            name: html.zip
             path: build/**
+        - name: Setup Pages
+          if: github.event_name != 'pull_request'
+          uses: actions/configure-pages@v5
+        - name: Upload Artifact
+          if: github.event_name != 'pull_request'
+          uses: actions/upload-pages-artifact@v3
+          with:
+            # upload entire directory
+            path: build
